@@ -1,36 +1,37 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "mapa.hpp"
 class Gracz {
 public:
     std::string imie;
     std::string nazwisko;
 
-    int max_hp;
-    int max_mp;
-    int hp;
-    int mp;
+    int max_pz;
+    int max_pm;
+    int pz;
+    int pm;
     int sl;
     int zw;
     int in;
     int sz;
 
-    Gracz(std::string imie, std::string nazwisko, int start_hp, int start_mp, int sila, int zwinnosc, int inteligencja, int szczescie) {
+    Gracz(std::string imie, std::string nazwisko, int start_pz, int start_pm, int sila, int zwinnosc, int inteligencja, int szczescie) {
         this->imie = imie;
         this->nazwisko = nazwisko;
 
-        hp = start_hp;
-        mp = start_mp;
+        pz = start_pz;
+        pm = start_pm;
         sl = sila;
         zw = zwinnosc;
         in = inteligencja;
         sz = szczescie;
-        max_hp = start_hp;
-        max_mp = start_mp;
+        max_pz = start_pz;
+        max_pm = start_pm;
     }
 
      void wypisz_statystyki() {
-        std::cout << imie << " " << nazwisko << " Mam " << hp << " HP, " << mp << " MP, " << sl << " Sily, " << zw << " zwinnosci, " << in << " inteligencji i " << sz << " szczescia." << std::endl;
+        std::cout <<"Mam " << pz << " PŻ, " << pm << " PM, " << sl << " Siły, " << zw << " zwinności, " << in << " inteligencji i " << sz << " szczęścia." << std::endl;
     }
 
     virtual void opis_klasy() = 0;
@@ -44,7 +45,7 @@ public:
         std::fstream wojownik;
         std::string opis_wojownika;
         wojownik.open("wojownik.txt");
-        if(!wojownik) std::cout<<"Wybacz, ale wojownik zostal zabity"<<std::endl;
+        if(!wojownik) std::cout<<"Wybacz, ale wojownik został zabity"<<std::endl;
         else while(!wojownik.eof()){
             getline(wojownik,opis_wojownika);
             std::cout<<opis_wojownika<<std::endl;
@@ -61,7 +62,7 @@ public:
         std::fstream magik;
         std::string opis_magika;
         magik.open("magik.txt");
-        if(!magik) std::cout<<"Wybacz, ale magik zostal zabity"<<std::endl;
+        if(!magik) std::cout<<"Wybacz, ale magik został zabity"<<std::endl;
         else while(!magik.eof()){
             getline(magik,opis_magika);
             std::cout<<opis_magika<<std::endl;
@@ -79,7 +80,7 @@ public:
         std::fstream silacz;
         std::string opis_silacza;
         silacz.open("silacz.txt");
-        if(!silacz) std::cout<<"Wybacz, ale silacz zostal zabity"<<std::endl;
+        if(!silacz) std::cout<<"Wybacz, ale silacz został zabity"<<std::endl;
         else while(!silacz.eof()){
             getline(silacz,opis_silacza);
             std::cout<<opis_silacza<<std::endl;
@@ -96,7 +97,7 @@ public:
         std::fstream lotrzyk;
         std::string opis_lotrzyka;
         lotrzyk.open("lotrzyk.txt");
-        if(!lotrzyk) std::cout<<"Wybacz, ale lotrzyk zostal zabity"<<std::endl;
+        if(!lotrzyk) std::cout<<"Wybacz, ale lotrzyk został zabity"<<std::endl;
         else while(!lotrzyk.eof()){
             getline(lotrzyk,opis_lotrzyka);
             std::cout<<opis_lotrzyka<<std::endl;
@@ -107,14 +108,14 @@ public:
 class Rasa{
 public:
     virtual void dodaj_bonusy(Gracz*) = 0;
-    virtual void opis_klasy() = 0;
+    virtual void opis_rasy() = 0;
 };
 
 class Czlowiek : public Rasa{
 public:
     virtual void dodaj_bonusy(Gracz* gracz){
-        gracz->hp+=4;
-        gracz->mp+=4;
+        gracz->pz+=4;
+        gracz->pm+=4;
         gracz->sl+=4;
         gracz->in+=4;
         gracz->zw+=4;
@@ -136,8 +137,8 @@ public:
 class Elf : public Rasa{
 public:
     virtual void dodaj_bonusy(Gracz* gracz){
-        gracz->hp+=1;
-        gracz->mp+=3;
+        gracz->pz+=1;
+        gracz->pm+=3;
         gracz->sl+=5;
         gracz->in+=3;
         gracz->zw+=11;
@@ -160,8 +161,8 @@ public:
 class Gnom : public Rasa{
 public:
     virtual void dodaj_bonusy(Gracz* gracz){
-        gracz->hp-=5;
-        gracz->mp+=7;
+        gracz->pz-=5;
+        gracz->pm+=7;
         gracz->in+=10;
         gracz->zw+=7;
         gracz->sz+=9;
@@ -171,7 +172,7 @@ public:
         std::fstream gnom;
         std::string opis_gnoma;
         gnom.open("gnom.txt");
-        if(!gnom) std::cout<<"Wybacz, ale gnomy wygineli"<<std::endl;
+        if(!gnom) std::cout<<"Wybacz, ale gnomy wygineły"<<std::endl;
         else while(!gnom.eof()){
             getline(gnom,opis_gnoma);
             std::cout<<opis_gnoma<<std::endl;
@@ -183,7 +184,7 @@ public:
 class Krasnolud : public Rasa{
 public:
     virtual void dodaj_bonusy(Gracz* gracz){
-        gracz->hp+=9;
+        gracz->pz+=9;
         gracz->sl+=10;
         gracz->zw+=3;
         gracz->sz+=6;
@@ -192,7 +193,7 @@ public:
         std::fstream krasnolud;
         std::string opis_krasnoluda;
         krasnolud.open("krasnolud.txt");
-        if(!krasnolud) std::cout<<"Wybacz, ale krasnoludy wygineli"<<std::endl;
+        if(!krasnolud) std::cout<<"Wybacz, ale krasnoludy wygineły"<<std::endl;
         else while(!krasnolud.eof()){
             getline(krasnolud,opis_krasnoluda);
             std::cout<<opis_krasnoluda<<std::endl;
@@ -201,37 +202,107 @@ public:
     }
 };
 
+class Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz*) = 0;
+};
+class PZ : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->pz+=1;
+    }
+};
+
+class PM : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->pm+=1;
+    }
+};
+class Sila : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->sl+=1;
+    }
+};
+class Zwinnosc : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->zw+=1;
+    }
+};
+class Inteligencja : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->in+=1;
+    }
+};
+class Szczescie : public Bonusy{
+public:
+    virtual void dodatkowe_punkty(Gracz* gracz){
+        gracz->sz+=1;
+    }
+};
+
 enum klasa {
     wojownik, silacz, magik, lotrzyk
 };
+enum rasa_g {
+    czlowiek, elf, gnom, krasnolud
+};
 enum plec{
-    mezczyzna,kobieta
+    mezczyzna, kobieta
 };
 struct stan_gry{
     // Cechy gracza
     std::string imie;
     std::string nazwisko;
     enum klasa klasa;
+    enum rasa_g rasa_g;
     Rasa* rasa = NULL;
     enum plec plec;
     // stan gracza;
+    Bonusy* bonus = NULL;
     Gracz* gracz = NULL;
     int poziom = 1;
     int pd = 0;
+    int zloto = 0;
 
 
 
 } stan_gry;
 
+void wypisz_plec(enum plec p){
+    if(p == mezczyzna) std::cout<<"Mężczyzna"<<std::endl;
+    else std::cout<<"Kobieta"<<std::endl;
+
+}
+void wypisz_klase(enum klasa k){
+    if(k == wojownik) std::cout<<"wojownik"<<std::endl;
+    else if(k == silacz) std::cout<<"siłacz"<<std::endl;
+    else if(k == magik) std::cout<<"magik"<<std::endl;
+    else std::cout<<"łotrzyk"<<std::endl;
+}
+
+void wypisz_rase(enum rasa_g r){
+    if(r == czlowiek) std::cout<<"człowiek"<<std::endl;
+    else if(r == elf) std::cout<<"elf"<<std::endl;
+    else if(r == gnom) std::cout<<"gnom"<<std::endl;
+    else std::cout<<"krasnolud"<<std::endl;
+}
+
 int main() {
     std::string komenda;
     std::string profesja;
     std::string rasa_p;
-    std::cout<<"TYTUL"<<std::endl;
-    std::cout<<"Rozpocznij Gre"<<std::endl;
-    std::cout<<"Wczytaj Gre"<<std::endl;
+    std::string atrybut;
+    std::string plec;
+    std::cout<<"TYTUŁ"<<std::endl;
+    std::cout<<"Rozpocznij Grę"<<std::endl;
+    std::cout<<"Wczytaj Grę"<<std::endl;
     std::cout<<"Pomoc"<<std::endl;
-    std::cout<<"Wyjscie"<<std::endl;
+    std::cout<<"Wyjście"<<std::endl;
+    do{
     getline(std::cin,komenda);
     if(komenda=="rozpocznij gre"){
         std::fstream historia;
@@ -242,15 +313,14 @@ int main() {
             std::cout<<prolog<<std::endl;
         }
         historia.close();
-
-        std::cout<<"Witaj podrozniku"<<std::endl;
-        do{
+        std::cout<<"Witaj podróżniku"<<std::endl;
         delete stan_gry.gracz;
-        std::cout<<"Jak masz na imie"<<std::endl;
+        do{
+        std::cout<<"Jak masz na imię"<<std::endl;
         std::cin>>stan_gry.imie;
         std::cout<<"Jak masz na nazwisko"<<std::endl;
         std::cin>>stan_gry.nazwisko;
-            std::cout<<"Jaka masz klase? Masz do wyboru: wojownik, silacz, magik, lotrzyk"<<std::endl;
+            std::cout<<"Jaką masz klasę? Masz do wyboru: wojownik, siłacz, magik, łotrzyk"<<std::endl;
             do{
             std::cin>>profesja;
             if(profesja == "wojownik"){
@@ -273,25 +343,27 @@ int main() {
                     stan_gry.klasa = lotrzyk;
                     stan_gry.gracz = new Lotrzyk(stan_gry.imie,stan_gry.nazwisko);
             }
-            else std::cout<<"Nie ma takiej klasy, proszê wybraæ odpowiedni¹"<<std::endl;
+            else std::cout<<"Nie ma takiej klasy, proszę wybrać odpowiednią"<<std::endl;
             }while(stan_gry.gracz == NULL);
             stan_gry.gracz->opis_klasy();
             stan_gry.gracz->wypisz_statystyki();
-            std::cout<<"Pasuje"<<std::endl;
-            std::cin>>komenda;
-        std::cout<<"Podaj swoją rasę. Masz do wyboru: cz³owiek, elf, gnom, krasnolud"<<std::endl;
+        std::cout<<"Podaj swoją rasę. Masz do wyboru: człowiek, elf, gnom, krasnolud"<<std::endl;
         do{
         std::cin>>rasa_p;
         if(rasa_p == "czlowiek"){
+            stan_gry.rasa_g = czlowiek;
             stan_gry.rasa = new Czlowiek();
         }
         else if(rasa_p == "elf"){
+            stan_gry.rasa_g = elf;
             stan_gry.rasa = new Elf();
         }
         else if(rasa_p == "gnom"){
+            stan_gry.rasa_g = gnom;
             stan_gry.rasa = new Gnom();
         }
         else if(rasa_p == "krasnolud"){
+            stan_gry.rasa_g = krasnolud;
             stan_gry.rasa = new Krasnolud();
         }
         else std::cout<<"Taka rasa nie istnieje, proszę wybrać inną"<<std::endl;
@@ -299,13 +371,73 @@ int main() {
         stan_gry.rasa->opis_rasy();
         stan_gry.rasa->dodaj_bonusy(stan_gry.gracz);
         stan_gry.gracz->wypisz_statystyki();
+        std::cout<<"Masz jeszcze 10 punktów do wykorzystania"<<std::endl;
+        for(int i=1; i<=10; i++){
+            std::cin>>atrybut;
+            if(atrybut == "pz"){
+                    stan_gry.bonus = new PZ();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
 
-        }while(komenda!="tak");
+           }
+            else if(atrybut == "pm"){
+                    stan_gry.bonus = new PM();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
+
+            }
+            else if(atrybut == "sila"){
+                    stan_gry.bonus = new Sila();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
+
+            }
+            else if(atrybut == "zwinnosc"){
+                    stan_gry.bonus = new Zwinnosc();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
+
+            }
+            else if(atrybut == "inteligencja"){
+                    stan_gry.bonus = new Inteligencja();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
+
+            }
+            else if(atrybut == "szczescie"){
+                    stan_gry.bonus = new Szczescie();
+                    stan_gry.bonus->dodatkowe_punkty(stan_gry.gracz);
+
+            }
+            else{
+            std::cout<<"Nie ma takiego atrybutu."<<std::endl;
+            i-=1;
+           }
+        }
+        stan_gry.gracz->wypisz_statystyki();
+        std::cout<<"Podaj płeć"<<std::endl;
+        do{
+        std::cin>>plec;
+        if(plec == "mezczyzna"){
+            stan_gry.plec = mezczyzna;
+        }
+        else if(plec == "kobieta"){
+            stan_gry.plec = kobieta;
+        }
+        else std::cout<<"Nie ma takiej płci"<<std::endl;
+        }while(plec != "mezczyzna" && plec != "kobieta");
+        std::cout<<stan_gry.imie<<std::endl;
+        std::cout<<stan_gry.nazwisko<<std::endl;
+        wypisz_klase(stan_gry.klasa);
+        wypisz_rase(stan_gry.rasa_g);
+        wypisz_plec(stan_gry.plec);
+        stan_gry.gracz->wypisz_statystyki();
+        std::cout<<"To ty?"<<std::endl;
+        do{
+        std::cin>>komenda;
+        if(komenda != "nie" && komenda != "tak") std::cout<<"Nie rozumiem, możesz powtórzyć?"<<std::endl;
+        }while(komenda != "nie" && komenda != "tak");
+        }while(komenda != "tak");
     }
-    if(komenda=="wczytaj gre"){
+    else if(komenda == "wczytaj gre"){
 
     }
-    if(komenda=="pomoc"){
+    else if(komenda=="pomoc"){
         std::fstream pomoc;
         pomoc.open("pomoc.txt");
         std::string opis_pomoc;
@@ -316,8 +448,10 @@ int main() {
         }
         pomoc.close();
     }
-    if(komenda=="wyjscie"){
+    else if(komenda=="wyjscie"){
         std::cout<<"Żegnaj"<<std::endl;
         return 0;
     }
+    else std::cout<<"Nie ma takiego polecenia"<<std::endl;
+    }while((komenda != "rozpocznij gre" && komenda != "wczytaj gre" && komenda != "wyjscie") || komenda == "pomoc");
 }
