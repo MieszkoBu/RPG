@@ -1,0 +1,24 @@
+Kierunki:
+	polnoc
+	poludnie
+	wschod
+	zachod
+pomoc [nazwa przedmiotu/rasa/klasa] wyświetla szczegółowe informacje;
+Postac:
+	ekwipunek - wyświetla ekwipunek
+	zbroja - wyświetla całą zbroję
+	broń - wyświetla całą broń
+	przedmioty - wyświetla wszystkie przedmioty zużywalne
+	zaloz [nazwa broni/zbroi] - zakladasz bron/zboję
+	informacja [nazwa broni/zbroi/przedmiotu] - statystyki przedmiotu
+	status - wyświetla statystyki postaci
+	mapa - wyświetla mapę
+	dziennik - wyświetla wszystkie aktywne zadania
+	magia - wyświetla wszystkie czary jakie znasz
+	umiejetnosc - wyświetla wszystkie umiejętności
+Walka:
+	Atak - zwykły atak bronią
+	umiejetnosc [nazwa umiejetnosci] - atak umiejetnoscia
+	magia [nazwa czaru] - atakujesz magią
+	przedmiot [nazwa przedmiotu] - zurzywasz przedmiot
+	ucieczka - próba ucieczki (szansa na sukces zależny od różnicy poziomów)
