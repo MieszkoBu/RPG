@@ -1,22 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "klasa.hpp"
 #include "mapa.hpp"
-class Gracz {
-public:
-    std::string imie;
-    std::string nazwisko;
 
-    int max_pz;
-    int max_pm;
-    int pz;
-    int pm;
-    int sl;
-    int zw;
-    int in;
-    int sz;
 
-    Gracz(std::string imie, std::string nazwisko, int start_pz, int start_pm, int sila, int zwinnosc, int inteligencja, int szczescie) {
+Gracz::Gracz(std::string imie, std::string nazwisko, int start_pz, int start_pm, int sila, int zwinnosc, int inteligencja, int szczescie) {
         this->imie = imie;
         this->nazwisko = nazwisko;
 
@@ -28,20 +17,17 @@ public:
         sz = szczescie;
         max_pz = start_pz;
         max_pm = start_pm;
-    }
+}
 
-     void wypisz_statystyki() {
+struct StanGry stan_gry;
+
+void Gracz::wypisz_statystyki() {
         std::cout <<"Mam " << pz << " PŻ, " << pm << " PM, " << sl << " Siły, " << zw << " zwinności, " << in << " inteligencji i " << sz << " szczęścia." << std::endl;
-    }
+}
 
-    virtual void opis_klasy() = 0;
-};
+Wojownik::Wojownik(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 40, 0, 24, 8, 2, 1) {}
 
-class Wojownik : public Gracz {
-public:
-    Wojownik(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 40, 0, 24, 8, 2, 1) {}
-
-    virtual void opis_klasy() {
+void Wojownik::opis_klasy() {
         std::fstream wojownik;
         std::string opis_wojownika;
         wojownik.open("wojownik.txt");
@@ -52,13 +38,10 @@ public:
         }
         wojownik.close();
     }
-};
 
-class Magik : public Gracz {
-public:
-    Magik(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 20, 50, 5, 9, 30, 3) {}
+Magik::Magik(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 20, 50, 5, 9, 30, 3) {}
 
-    virtual void opis_klasy() {
+void Magik::opis_klasy() {
         std::fstream magik;
         std::string opis_magika;
         magik.open("magik.txt");
@@ -70,13 +53,9 @@ public:
         magik.close();
     }
 
-};
+Silacz::Silacz(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 15, 0, 40, 15, 0, 0) {}
 
-class Silacz : public Gracz {
-public:
-    Silacz(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 15, 0, 40, 15, 0, 0) {}
-
-    virtual void opis_klasy() {
+void Silacz::opis_klasy() {
         std::fstream silacz;
         std::string opis_silacza;
         silacz.open("silacz.txt");
@@ -87,13 +66,10 @@ public:
         }
         silacz.close();
     }
-};
 
-class Lotrzyk : public Gracz {
-public:
-    Lotrzyk(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 25, 10, 15, 28, 7, 15) {}
+Lotrzyk::Lotrzyk(std::string imie, std::string nazwisko) : Gracz(imie, nazwisko, 25, 10, 15, 28, 7, 15) {}
 
-    virtual void opis_klasy() {
+void Lotrzyk::opis_klasy() {
         std::fstream lotrzyk;
         std::string opis_lotrzyka;
         lotrzyk.open("lotrzyk.txt");
@@ -104,16 +80,8 @@ public:
         }
         lotrzyk.close();
     }
-};
-class Rasa{
-public:
-    virtual void dodaj_bonusy(Gracz*) = 0;
-    virtual void opis_rasy() = 0;
-};
 
-class Czlowiek : public Rasa{
-public:
-    virtual void dodaj_bonusy(Gracz* gracz){
+void Czlowiek::dodaj_bonusy(Gracz* gracz){
         gracz->pz+=4;
         gracz->pm+=4;
         gracz->sl+=4;
@@ -121,7 +89,7 @@ public:
         gracz->zw+=4;
         gracz->sz+=4;
     }
-    virtual void opis_rasy() {
+void Czlowiek::opis_rasy() {
         std::fstream czlowiek;
         std::string opis_czlowieka;
         czlowiek.open("czlowiek.txt");
@@ -132,11 +100,8 @@ public:
         }
         czlowiek.close();
     }
-};
 
-class Elf : public Rasa{
-public:
-    virtual void dodaj_bonusy(Gracz* gracz){
+void Elf::dodaj_bonusy(Gracz* gracz){
         gracz->pz+=1;
         gracz->pm+=3;
         gracz->sl+=5;
@@ -145,7 +110,7 @@ public:
         gracz->sz+=5;
 
     }
-    virtual void opis_rasy() {
+void Elf::opis_rasy() {
         std::fstream elf;
         std::string opis_elfa;
         elf.open("elf.txt");
@@ -155,12 +120,9 @@ public:
             std::cout<<opis_elfa<<std::endl;
         }
         elf.close();
-    }
-};
+}
 
-class Gnom : public Rasa{
-public:
-    virtual void dodaj_bonusy(Gracz* gracz){
+void Gnom::dodaj_bonusy(Gracz* gracz){
         gracz->pz-=5;
         gracz->pm+=7;
         gracz->in+=10;
@@ -168,7 +130,8 @@ public:
         gracz->sz+=9;
 
     }
-    virtual void opis_rasy() {
+
+void Gnom::opis_rasy() {
         std::fstream gnom;
         std::string opis_gnoma;
         gnom.open("gnom.txt");
@@ -179,17 +142,14 @@ public:
         }
         gnom.close();
     }
-};
 
-class Krasnolud : public Rasa{
-public:
-    virtual void dodaj_bonusy(Gracz* gracz){
+void Krasnolud::dodaj_bonusy(Gracz* gracz){
         gracz->pz+=9;
         gracz->sl+=10;
         gracz->zw+=3;
         gracz->sz+=6;
     }
-    virtual void opis_rasy() {
+void Krasnolud::opis_rasy() {
         std::fstream krasnolud;
         std::string opis_krasnoluda;
         krasnolud.open("krasnolud.txt");
@@ -200,77 +160,36 @@ public:
         }
         krasnolud.close();
     }
-};
 
-class Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz*) = 0;
-};
-class PZ : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
+
+    void PZ::dodatkowe_punkty(Gracz* gracz){
         gracz->pz+=1;
     }
-};
 
-class PM : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
+     void PM::dodatkowe_punkty(Gracz* gracz){
         gracz->pm+=1;
     }
-};
-class Sila : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
+
+
+    void Sila::dodatkowe_punkty(Gracz* gracz){
         gracz->sl+=1;
     }
-};
-class Zwinnosc : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
-        gracz->zw+=1;
+
+void Zwinnosc::dodatkowe_punkty(Gracz* gracz){
+        gracz->zw++;
     }
-};
-class Inteligencja : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
+
+
+
+    void Inteligencja::dodatkowe_punkty(Gracz* gracz){
         gracz->in+=1;
     }
-};
-class Szczescie : public Bonusy{
-public:
-    virtual void dodatkowe_punkty(Gracz* gracz){
+
+
+    void Szczescie::dodatkowe_punkty(Gracz* gracz){
         gracz->sz+=1;
     }
-};
 
-enum klasa {
-    wojownik, silacz, magik, lotrzyk
-};
-enum rasa_g {
-    czlowiek, elf, gnom, krasnolud
-};
-enum plec{
-    mezczyzna, kobieta
-};
-struct stan_gry{
-    // Cechy gracza
-    std::string imie;
-    std::string nazwisko;
-    enum klasa klasa;
-    enum rasa_g rasa_g;
-    Rasa* rasa = NULL;
-    enum plec plec;
-    // stan gracza;
-    Bonusy* bonus = NULL;
-    Gracz* gracz = NULL;
-    int poziom = 1;
-    int pd = 0;
-    int zloto = 0;
-
-
-
-} stan_gry;
 
 void wypisz_plec(enum plec p){
     if(p == mezczyzna) std::cout<<"Mężczyzna"<<std::endl;
@@ -433,6 +352,8 @@ int main() {
         if(komenda != "nie" && komenda != "tak") std::cout<<"Nie rozumiem, możesz powtórzyć?"<<std::endl;
         }while(komenda != "nie" && komenda != "tak");
         }while(komenda != "tak");
+        mapa();
+        return 0;
     }
     else if(komenda == "wczytaj gre"){
 
